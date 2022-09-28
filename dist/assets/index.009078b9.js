@@ -1,0 +1,10 @@
+(function(){const n=document.createElement("link").relList;if(n&&n.supports&&n.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const i of o.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&s(i)}).observe(document,{childList:!0,subtree:!0});function r(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerpolicy&&(o.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?o.credentials="include":e.crossorigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function s(e){if(e.ep)return;e.ep=!0;const o=r(e);fetch(e.href,o)}})();const a="3265874a2c77ae4a04bb96236a642d2f",u=document.querySelector("form"),c=document.querySelector("#weather"),h=document.querySelector("#search");navigator.geolocation.getCurrentPosition(function(t){const n=t.coords.latitude,r=t.coords.longitude;return console.log(n,r),f(n,r)});const d=async t=>{c.innerHTML='<h4 class="text-3xl text-white">Loading.......</h4>';const n=` https://api.openweathermap.org/data/2.5/weather?q=${t}&appid=${a}&units=metric`,r=await fetch(n);console.log(r);const s=await r.json();return l(s)},f=async(t,n)=>{c.innerHTML='<h4 class="text-3xl text-white">Loading.......</h4>';const r=` https://api.openweathermap.org/data/2.5/weather?lat=${t}&lon=${n}&appid=${a}&units=metric`,s=await fetch(r);console.log(s);const e=await s.json();return l(e)},l=t=>{if(console.log(t),t.cod=="404"){c.innerHTML='<h4 class="text-3xl text-white">City Not Found.......</h4>';return}c.innerHTML=`
+    
+    <div>
+        <img src="https://openweathermap.org/img/wn/${t.weather[0].icon}@2x.png" alt="">
+    </div>
+    <div class="text-white space-y-2 font-bold ">
+        <h1 class="text-4xl">${t.name}</h1>
+        <h1 class="text-3xl">${t.main.temp} &#176;C</h1>
+        <h4 class="text-2xl"> ${t.weather[0].main}</h4>
+    </div>`};u.addEventListener("submit",function(t){d(h.value),t.preventDefault()});
